@@ -1,10 +1,11 @@
-package _714220050
+package module
 
 import (
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/mhrndiva/kemahasiswaan/model"
 	//"os"
 	//"time"
 
@@ -31,14 +32,14 @@ func InsertOneDoc(db string, collection string, doc interface{}) (insertedID int
 }
 
 func IsertMahasiswa(nama string, phonenumber string, jurusan string) (InsertedID interface{}) {
-	var mahasiswa Mahasiswa
+	var mahasiswa model.Mahasiswa
 	mahasiswa.Nama = nama
 	mahasiswa.Phone_number = phonenumber
 	mahasiswa.Jurusan = jurusan
 	return InsertOneDoc("kemahasiswaan", "mahasiswa", mahasiswa)
 }
 
-func GetMahasiswaFromPhoneNumber(phone_number string) (staf Mahasiswa) {
+func GetMahasiswaFromPhoneNumber(phone_number string) (staf model.Mahasiswa) {
 	mahasiswa:= MongoConnect("kemahasiswaan").Collection("mahasiswa")
 	filter := bson.M{"phone_number": phone_number}
 	err := mahasiswa.FindOne(context.TODO(), filter).Decode(&staf)
@@ -48,7 +49,7 @@ func GetMahasiswaFromPhoneNumber(phone_number string) (staf Mahasiswa) {
 	return staf
 }
 
-func GetAllMahasiswa() (data []Mahasiswa) {
+func GetAllMahasiswa() (data [] model.Mahasiswa) {
 	mahasiswa := MongoConnect("kemahasiswaan").Collection("mahasiswa")
 	filter := bson.M{}
 	cursor, err := mahasiswa.Find(context.TODO(), filter)
@@ -63,7 +64,7 @@ func GetAllMahasiswa() (data []Mahasiswa) {
 }
 
 func InsertMatkul(namaMatkul string, jamMasuk string, hari []string, sks int, dosen string) (InsertedID interface{}) {
-    var matkul Matkul
+    var matkul model.Matkul
     matkul.Nama_matkul = namaMatkul
    matkul.Jam_masuk = jamMasuk
     matkul.Hari = hari
@@ -74,8 +75,8 @@ func InsertMatkul(namaMatkul string, jamMasuk string, hari []string, sks int, do
 
 
 
-func InsertPresensi(phoneNumber string, datetime primitive.DateTime, biodata Mahasiswa) (InsertedID interface{}) {
-    var presensi Presensi
+func InsertPresensi(phoneNumber string, datetime primitive.DateTime, biodata model.Mahasiswa) (InsertedID interface{}) {
+    var presensi model.Presensi
     presensi.Phone_number = phoneNumber
     presensi.Datetime = datetime
     presensi.Biodata = biodata
