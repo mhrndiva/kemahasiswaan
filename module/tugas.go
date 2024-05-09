@@ -82,3 +82,4 @@ func InsertPresensi(phoneNumber string, datetime primitive.DateTime, biodata mod
     presensi.Biodata = biodata
     return InsertOneDoc("kemahasiswaan", "presensi", presensi)
 }
+

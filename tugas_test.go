@@ -11,7 +11,7 @@ import (
 
 func TestInsertMahasiswa(t *testing.T) {
     // Menjalankan fungsi InsertMahasiswa
-    insertedID := module.IsertMahasiswa("John Doe", "123456789", "Teknik Informatika")
+    insertedID := module.IsertMahasiswa("Abel", "087654321", "pertanian")
     if insertedID == nil {
         t.Error("Expected non-nil value, got nil")
     }
@@ -20,9 +20,9 @@ func TestInsertMahasiswa(t *testing.T) {
 
 func TestGetMahasiswaFromPhoneNumber(t *testing.T) {
     // Menjalankan fungsi GetMahasiswaFromPhoneNumber
-    phoneNumber := "123456789"
+    phoneNumber := "087654321"
     mahasiswa := module.GetMahasiswaFromPhoneNumber(phoneNumber)
-    if mahasiswa.Nama == "" {
+    if mahasiswa.Nama == "Abel" {
         t.Error("Expected non-empty name, got empty")
     }
     fmt.Println(mahasiswa.Nama)
@@ -40,11 +40,11 @@ func TestGetAllMahasiswa(t *testing.T) {
 
 func TestInsertMatkul(t *testing.T) {
     // Menjalankan fungsi InsertMatkul
-    namaMatkul := "Matematika Dasar"
-    jamMasuk := "08:00"
-    hari := []string{"Senin", "Rabu"}
-    sks := 3
-    dosen := "Dr. Andi"
+    namaMatkul := "Proteksi Tanaman"
+    jamMasuk := "09:30"
+    hari := []string{"sabtu", "kamis"}
+    sks := 2
+    dosen := "Bu sinta"
 
     insertedID := module.InsertMatkul(namaMatkul, jamMasuk, hari, sks, dosen)
     if insertedID == nil {
@@ -55,9 +55,9 @@ func TestInsertMatkul(t *testing.T) {
 
 func TestInsertPresensi(t *testing.T) {
     // Menjalankan fungsi InsertPresensi
-    phoneNumber := "123456789"
+    phoneNumber := "087654321"
     datetime := primitive.NewDateTimeFromTime(time.Now().UTC())
-    biodata := model.Mahasiswa{Nama: "John Doe", Phone_number: "123456789", Jurusan: "Teknik Informatika"}
+    biodata := model.Mahasiswa{Nama: "Abel", Phone_number: "087654321", Jurusan: "pertanian"}
 
     insertedID := module.InsertPresensi(phoneNumber, datetime, biodata)
     if insertedID == nil {
