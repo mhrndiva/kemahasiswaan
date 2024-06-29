@@ -7,7 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"github.com/mhrndiva/kemahasiswaan/model"
 	//"os"
-	//"time"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -31,11 +31,14 @@ func InsertOneDoc(db string, collection string, doc interface{}) (insertedID int
 	return insertResult.InsertedID
 }
 
-func IsertMahasiswa(nama string, phonenumber string, jurusan string) (InsertedID interface{}) {
+func InsertMahasiswa(nama string, phonenumber string, jurusan string, npm int, alamat string, email string) (InsertedID interface{}) {
 	var mahasiswa model.Mahasiswa
 	mahasiswa.Nama = nama
 	mahasiswa.Phone_number = phonenumber
 	mahasiswa.Jurusan = jurusan
+	mahasiswa.Npm = npm
+	mahasiswa.Alamat = alamat
+	mahasiswa.Email = email
 	return InsertOneDoc("kemahasiswaan", "mahasiswa", mahasiswa)
 }
 
@@ -75,11 +78,27 @@ func InsertMatkul(namaMatkul string, jamMasuk string, hari []string, sks int, do
 
 
 
-func InsertPresensi(phoneNumber string, datetime primitive.DateTime, biodata model.Mahasiswa) (InsertedID interface{}) {
-    var presensi model.Presensi
-    presensi.Phone_number = phoneNumber
-    presensi.Datetime = datetime
-    presensi.Biodata = biodata
-    return InsertOneDoc("kemahasiswaan", "presensi", presensi)
+// func InsertPresensi(phoneNumber string, datetime primitive.DateTime, biodata model.Mahasiswa) (InsertedID interface{}) {
+//     var presensi model.Presensi
+//     presensi.Phone_number = phoneNumber
+//     presensi.Datetime = datetime
+//     presensi.Biodata = biodata
+//     return InsertOneDoc("kemahasiswaan", "presensi", presensi)
+// }
+
+func InsertPresensi(db *mongo.Database,col string,phone_number int, matkul model.Matkul, biodata model.Mahasiswa,) (insertedID primitive.ObjectID, err error) {
+	presensi := bson.M{
+		"phone_number": phone_number,
+		"datetime":     primitive.NewDateTimeFromTime(time.Now().UTC()),
+		"matkul":      matkul,
+		"biodata":		biodata,
+	}
+	result, err := db.Collection(col).InsertOne(context.Background(), presensi)
+	if err != nil {
+		fmt.Printf("InsertPresensi: %v\n", err)
+		return
+	}
+	insertedID = result.InsertedID.(primitive.ObjectID)
+	return insertedID, nil
 }
 
