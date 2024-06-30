@@ -24,7 +24,7 @@ type Matkul struct {
 
 type Presensi struct {
 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	Npm			 string             `bson:"npm,omitempty" json:"npm,omitempty"`
+	Npm			 int            `bson:"npm,omitempty" json:"npm,omitempty"`
 	Datetime     primitive.DateTime `bson:"datetime,omitempty" json:"datetime,omitempty"`
 	Matkul       Matkul               `bson:"matkul,omitempty" json:"matkul,omitempty"`
 	Biodata      Mahasiswa           `bson:"biodata,omitempty" json:"biodata,omitempty"`

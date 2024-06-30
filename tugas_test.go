@@ -120,16 +120,30 @@ func TestInsertPresensi(t *testing.T) {
 //     fmt.Println(mahasiswa.Nama)
 // }
 
-// func TestGetAllMahasiswa(t *testing.T) {
-//     // Menjalankan fungsi GetAllMahasiswa
-//     allMahasiswa := module.GetAllMahasiswa()
-//     if len(allMahasiswa) == 0 {
-//         t.Error("Expected non-empty slice, got empty slice")
-//     }
-//     fmt.Println(allMahasiswa)
-// }
+func TestGetAllMahasiswa(t *testing.T) {
+    // Menjalankan fungsi GetAllMahasiswa
+    allMahasiswa := module.GetAllMahasiswa()
+    if len(allMahasiswa) == 0 {
+        t.Error("Expected non-empty slice, got empty slice")
+    }
+    fmt.Println(allMahasiswa)
+}
 
+func TestGetAllPresensi(t *testing.T) {
+    allPresensi := module.GetAllPresensi()
+    if len(allPresensi) == 0 {
+        t.Error("Expected non-empty slice, got empty slice")
+    }
+    fmt.Println((allPresensi))
+}
 
+func TestGetAllMatkul(t *testing.T) {
+    allPresensi := module.GetAllMatkul()
+    if len(module.GetAllMatkul()) == 0 {
+        t.Error("Expected non-empty slice, got empty slice")
+    }
+    fmt.Println((allPresensi))
+}
 // func TestInsertMatkul(t *testing.T) {
 //     // Menjalankan fungsi InsertMatkul
 //     namaMatkul := "pemograman"
