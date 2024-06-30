@@ -138,11 +138,11 @@ func TestGetAllPresensi(t *testing.T) {
 }
 
 func TestGetAllMatkul(t *testing.T) {
-    allPresensi := module.GetAllMatkul()
-    if len(module.GetAllMatkul()) == 0 {
+    allMatkul := module.GetAllMatkul()
+    if len(allMatkul) == 0 {
         t.Error("Expected non-empty slice, got empty slice")
     }
-    fmt.Println((allPresensi))
+    fmt.Println((allMatkul))
 }
 // func TestInsertMatkul(t *testing.T) {
 //     // Menjalankan fungsi InsertMatkul
