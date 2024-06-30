@@ -34,20 +34,20 @@ func InsertOneDoc(db string, collection string, doc interface{}) (insertedID int
 func InsertMahasiswa(nama string, phonenumber string, jurusan string, npm int, alamat string, email string) (InsertedID interface{}) {
 	var mahasiswa model.Mahasiswa
 	mahasiswa.Nama = nama
+	mahasiswa.Npm = npm
 	mahasiswa.Phone_number = phonenumber
 	mahasiswa.Jurusan = jurusan
-	mahasiswa.Npm = npm
 	mahasiswa.Alamat = alamat
 	mahasiswa.Email = email
 	return InsertOneDoc("kemahasiswaan", "mahasiswa", mahasiswa)
 }
 
-func GetMahasiswaFromPhoneNumber(phone_number string) (staf model.Mahasiswa) {
+func GetMahasiswaFromNPM(npm string) (staf model.Mahasiswa) {
 	mahasiswa:= MongoConnect("kemahasiswaan").Collection("mahasiswa")
-	filter := bson.M{"phone_number": phone_number}
+	filter := bson.M{"npm": npm}
 	err := mahasiswa.FindOne(context.TODO(), filter).Decode(&staf)
 	if err != nil {
-		fmt.Printf("getMahasiswaFromPhoneNumber: %v\n", err)
+		fmt.Printf("getMahasiswaFromNPM: %v\n", err)
 	}
 	return staf
 }
@@ -66,32 +66,36 @@ func GetAllMahasiswa() (data [] model.Mahasiswa) {
 	return
 }
 
-func InsertMatkul(namaMatkul string, jamMasuk string, hari []string, sks int, dosen string) (InsertedID interface{}) {
+func InsertMatkul(namamatkul string, jadwal string, sks int, dosen string) (InsertedID interface{}) {
     var matkul model.Matkul
-    matkul.Nama_matkul = namaMatkul
-   matkul.Jam_masuk = jamMasuk
-    matkul.Hari = hari
+    matkul.Nama_matkul = namamatkul
+    matkul.Jadwal = jadwal
     matkul.Sks = sks
     matkul.Dosen = dosen
     return InsertOneDoc("kemahasiswaan", "matkul", matkul)
 }
 
+func GetAllMatkul() (data [] model.Matkul) {
+	matkul := MongoConnect("kemahasiswaan").Collection("matkul")
+	filter := bson.M{}
+	cursor, err := matkul.Find(context.TODO(), filter)
+	if err != nil {
+		fmt.Println("GetALLData :", err)
+	}
+	err = cursor.All(context.TODO(), &data)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return
+}
 
-
-// func InsertPresensi(phoneNumber string, datetime primitive.DateTime, biodata model.Mahasiswa) (InsertedID interface{}) {
-//     var presensi model.Presensi
-//     presensi.Phone_number = phoneNumber
-//     presensi.Datetime = datetime
-//     presensi.Biodata = biodata
-//     return InsertOneDoc("kemahasiswaan", "presensi", presensi)
-// }
-
-func InsertPresensi(db *mongo.Database,col string,phone_number int, matkul model.Matkul, biodata model.Mahasiswa,) (insertedID primitive.ObjectID, err error) {
+func InsertPresensi(db *mongo.Database,col string, npm int, matkul model.Matkul, biodata model.Mahasiswa, checkin string) (insertedID primitive.ObjectID, err error) {
 	presensi := bson.M{
-		"phone_number": phone_number,
-		"datetime":     primitive.NewDateTimeFromTime(time.Now().UTC()),
-		"matkul":      matkul,
-		"biodata":		biodata,
+		"npm":      npm,
+		"datetime": primitive.NewDateTimeFromTime(time.Now().UTC()),
+		"matkul":   matkul,
+		"biodata":	biodata,
+		"checkin":	checkin,
 	}
 	result, err := db.Collection(col).InsertOne(context.Background(), presensi)
 	if err != nil {
@@ -100,5 +104,19 @@ func InsertPresensi(db *mongo.Database,col string,phone_number int, matkul model
 	}
 	insertedID = result.InsertedID.(primitive.ObjectID)
 	return insertedID, nil
+}
+
+func GetAllPresensi() (data [] model.Presensi) {
+	presensi := MongoConnect("kemahasiswaan").Collection("presensi")
+	filter := bson.M{}
+	cursor, err := presensi.Find(context.TODO(), filter)
+	if err != nil {
+		fmt.Println("GetALLData :", err)
+	}
+	err = cursor.All(context.TODO(), &data)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return
 }
 

@@ -10,23 +10,23 @@ type Mahasiswa struct {
 	Npm          int				 `bson:"npm,omitempty" json:"npm,omitempty"`
 	Phone_number string             `bson:"phone_number,omitempty" json:"phone_number,omitempty"`
 	Jurusan      string             `bson:"jabatan,omitempty" json:"jabatan,omitempty"`
-	Alamat		string				 `bson:"alamat,omitempty" json:"alamat,omitempty"`
-	Email		string				 `bson:"email,omitempty" json:"email,omitempty"`
+	Alamat		 string				 `bson:"alamat,omitempty" json:"alamat,omitempty"`
+	Email		 string				 `bson:"email,omitempty" json:"email,omitempty"`
+	Matkul		 []Matkul			 `bson:"matkul,omitempty" json:"matkul,omitempty"`	
 }
 
 type Matkul struct {
-	Nama_matkul     string      `bson:"durasi,omitempty" json:"durasi,omitempty"`
-	Jam_masuk  string   `bson:"jam_masuk,omitempty" json:"jam_masuk,omitempty"`
-	Hari       []string `bson:"hari,omitempty" json:"hari,omitempty"`
-	Sks      int      `bson:"shift,omitempty" json:"shift,omitempty"`
-	Dosen      string   `bson:"piket_tim,omitempty" json:"piket_tim,omitempty"`
+	Nama_matkul   string   `bson:"namamatkul,omitempty" json:"namamatkul,omitempty"`
+	Jadwal        string  `bson:"jadwal,omitempty" json:"jadwal,omitempty"`
+	Sks      	  int      `bson:"sks,omitempty" json:"sks,omitempty"`
+	Dosen         string   `bson:"dosen,omitempty" json:"dosen,omitempty"`
 }
 
 type Presensi struct {
 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	Phone_number string             `bson:"phone_number,omitempty" json:"phone_number,omitempty"`
+	Npm			 string             `bson:"npm,omitempty" json:"npm,omitempty"`
 	Datetime     primitive.DateTime `bson:"datetime,omitempty" json:"datetime,omitempty"`
 	Matkul       Matkul               `bson:"matkul,omitempty" json:"matkul,omitempty"`
-	checkin		string					`bson:"chekin,omitempty" json:"chekin,omitempty"`
 	Biodata      Mahasiswa           `bson:"biodata,omitempty" json:"biodata,omitempty"`
+	Checkin		 string					`bson:"chekin,omitempty" json:"chekin,omitempty"`
 }
