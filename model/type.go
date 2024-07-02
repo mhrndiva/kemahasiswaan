@@ -9,7 +9,7 @@ type Mahasiswa struct {
 	Nama         string             `bson:"nama,omitempty" json:"nama,omitempty"`
 	Npm          int				 `bson:"npm,omitempty" json:"npm,omitempty"`
 	Phone_number string             `bson:"phone_number,omitempty" json:"phone_number,omitempty"`
-	Jurusan      string             `bson:"jabatan,omitempty" json:"jabatan,omitempty"`
+	Jurusan      string             `bson:"jurusan,omitempty" json:"jurusan,omitempty"`
 	Alamat		 string				 `bson:"alamat,omitempty" json:"alamat,omitempty"`
 	Email		 string				 `bson:"email,omitempty" json:"email,omitempty"`
 	Matkul		 []Matkul			 `bson:"matkul,omitempty" json:"matkul,omitempty"`	

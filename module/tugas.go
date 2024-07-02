@@ -2,6 +2,7 @@ package module
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -40,6 +41,19 @@ func InsertMahasiswa(nama string, phonenumber string, jurusan string, npm int, a
 	mahasiswa.Alamat = alamat
 	mahasiswa.Email = email
 	return InsertOneDoc("kemahasiswaan", "mahasiswa", mahasiswa)
+}
+
+func GetMahasiswaFromID(_id primitive.ObjectID, db *mongo.Database, col string) (mahasiswa model.Mahasiswa, errs error) {
+	karyawan := db.Collection(col)
+	filter := bson.M{"_id": _id}
+	err := karyawan.FindOne(context.TODO(), filter).Decode(&mahasiswa)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return mahasiswa, fmt.Errorf("no data found for ID %s", _id)
+		}
+		return mahasiswa, fmt.Errorf("error retrieving data for ID %s: %s", _id, err.Error())
+	}
+	return mahasiswa, nil
 }
 
 func GetMahasiswaFromNPM(npm string) (staf model.Mahasiswa) {
