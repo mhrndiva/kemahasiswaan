@@ -1,8 +1,8 @@
 module github.com/mhrndiva/kemahasiswaan
 
-go 1.21
+go 1.20
 
-toolchain go1.22.1
+//toolchain go1.22.1
 
 //toolchain go1.22.1
 

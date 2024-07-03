@@ -12,7 +12,7 @@ type Mahasiswa struct {
 	Jurusan      string             `bson:"jurusan,omitempty" json:"jurusan,omitempty"`
 	Alamat		 string				 `bson:"alamat,omitempty" json:"alamat,omitempty"`
 	Email		 string				 `bson:"email,omitempty" json:"email,omitempty"`
-	Matkul		 []Matkul			 `bson:"matkul,omitempty" json:"matkul,omitempty"`	
+	//Matkul		 []Matkul			 `bson:"matkul,omitempty" json:"matkul,omitempty"`	
 }
 
 type Matkul struct {
