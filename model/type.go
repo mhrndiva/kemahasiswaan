@@ -12,7 +12,6 @@ type Mahasiswa struct {
 	Jurusan      string             `bson:"jurusan,omitempty" json:"jurusan,omitempty"`
 	Alamat		 string				 `bson:"alamat,omitempty" json:"alamat,omitempty"`
 	Email		 string				 `bson:"email,omitempty" json:"email,omitempty"`
-	//Matkul		 []Matkul			 `bson:"matkul,omitempty" json:"matkul,omitempty"`	
 }
 
 type Matkul struct {
@@ -28,5 +27,5 @@ type Presensi struct {
 	Datetime     primitive.DateTime `bson:"datetime,omitempty" json:"datetime,omitempty"`
 	Matkul       Matkul               `bson:"matkul,omitempty" json:"matkul,omitempty"`
 	Biodata      Mahasiswa           `bson:"biodata,omitempty" json:"biodata,omitempty"`
-	Checkin		 string					`bson:"chekin,omitempty" json:"chekin,omitempty"`
+	Checkin		 string					`bson:"checkin,omitempty" json:"checkin,omitempty"`
 }
