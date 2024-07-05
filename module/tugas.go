@@ -147,4 +147,41 @@ func GetPresensiFromID(_id primitive.ObjectID, db *mongo.Database, col string) (
 	return presensi, nil
 }
 
+func UpdatePresensi(db *mongo.Database,col string, id primitive.ObjectID,npm int, matkul model.Matkul, biodata model.Mahasiswa, checkin string) (err error) {
+	filter := bson.M{"_id": id}
+	update := bson.M{
+		"$set": bson.M{
+		"npm":      npm,
+		"datetime": primitive.NewDateTimeFromTime(time.Now().UTC()),
+		"matkul":   matkul,
+		"biodata":	biodata,
+		"checkin":	checkin,
+		},
+	}
+	result, err := db.Collection(col).UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		fmt.Printf("UpdatePresensi: %v\n", err)
+		return
+	}
+	if result.ModifiedCount == 0 {
+		err = errors.New("No data has been changed with the specified ID")
+		return
+	}
+	return nil
+}
 
+func DeletePresensiByID(_id primitive.ObjectID, db *mongo.Database, col string) error {
+	karyawan := db.Collection(col)
+	filter := bson.M{"_id": _id}
+
+	result, err := karyawan.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return fmt.Errorf("error deleting data for ID %s: %s", _id, err.Error())
+	}
+
+	if result.DeletedCount == 0 {
+		return fmt.Errorf("data with ID %s not found", _id)
+	}
+
+	return nil
+}
