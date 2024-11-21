@@ -40,7 +40,7 @@ func InsertMahasiswa(nama string, phonenumber string, jurusan string, npm int, a
 	mahasiswa.Jurusan = jurusan
 	mahasiswa.Alamat = alamat
 	mahasiswa.Email = email
-	return InsertOneDoc("kemahasiswaan", "mahasiswa", mahasiswa)
+	return InsertOneDoc("data_mahasiswa", "mahasiswa", mahasiswa)
 }
 
 func GetMahasiswaFromID(_id primitive.ObjectID, db *mongo.Database, col string) (mahasiswa model.Mahasiswa, errs error) {
@@ -57,7 +57,7 @@ func GetMahasiswaFromID(_id primitive.ObjectID, db *mongo.Database, col string) 
 }
 
 func GetMahasiswaFromNPM(npm string) (staf model.Mahasiswa) {
-	mahasiswa:= MongoConnect("kemahasiswaan").Collection("mahasiswa")
+	mahasiswa:= MongoConnect("data_mahasiswa").Collection("mahasiswa")
 	filter := bson.M{"npm": npm}
 	err := mahasiswa.FindOne(context.TODO(), filter).Decode(&staf)
 	if err != nil {
@@ -67,7 +67,7 @@ func GetMahasiswaFromNPM(npm string) (staf model.Mahasiswa) {
 }
 
 func GetAllMahasiswa() (data [] model.Mahasiswa) {
-	mahasiswa := MongoConnect("kemahasiswaan").Collection("mahasiswa")
+	mahasiswa := MongoConnect("data_mahasiswa").Collection("mahasiswa")
 	filter := bson.M{}
 	cursor, err := mahasiswa.Find(context.TODO(), filter)
 	if err != nil {
@@ -86,11 +86,11 @@ func InsertMatkul(namamatkul string, jadwal string, sks int, dosen string) (Inse
     matkul.Jadwal = jadwal
     matkul.Sks = sks
     matkul.Dosen = dosen
-    return InsertOneDoc("kemahasiswaan", "matkul", matkul)
+    return InsertOneDoc("data_mahasiswa", "matkul", matkul)
 }
 
 func GetAllMatkul() (data [] model.Matkul) {
-	matkul := MongoConnect("kemahasiswaan").Collection("matkul")
+	matkul := MongoConnect("data_mahasiswa").Collection("matkul")
 	filter := bson.M{}
 	cursor, err := matkul.Find(context.TODO(), filter)
 	if err != nil {
@@ -121,7 +121,7 @@ func InsertPresensi(db *mongo.Database,col string, npm int, matkul model.Matkul,
 }
 
 func GetAllPresensi() (data [] model.Presensi) {
-	presensi := MongoConnect("kemahasiswaan").Collection("presensi")
+	presensi := MongoConnect("data_mahasiswa").Collection("presensi")
 	filter := bson.M{}
 	cursor, err := presensi.Find(context.TODO(), filter)
 	if err != nil {

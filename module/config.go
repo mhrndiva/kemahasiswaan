@@ -9,7 +9,7 @@ var MongoString string = os.Getenv("MONGOSTRING")
 
 var MongoInfo = atdb.DBInfo{
 	DBString: MongoString,
-	DBName:   "kemahasiswaan",
+	DBName:   "data_mahasiswa",
 }
 
 var MongoConn = atdb.MongoConnect(MongoInfo)
