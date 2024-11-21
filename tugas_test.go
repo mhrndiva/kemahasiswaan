@@ -12,7 +12,7 @@ import (
 func TestInsertMahasiswa(t *testing.T) {
     nama := "Devi Wulandari"
     npm := 714220504
-    phonenumber := "081329563526"
+    phonenumber := "081329503526"
     jurusan := "Informatika"
     alamat := "cikutra"
     email := "devi@gmail.com"
