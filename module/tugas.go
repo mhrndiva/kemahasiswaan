@@ -78,4 +78,37 @@ func GetAllMahasiswa() (data [] model.Mahasiswa) {
 	return
 }
 
+func UpdateMahasiswa(npm string, updatedMahasiswa model.Mahasiswa) (bool, error) {
+	// Connect to the mahasiswa collection
+	mahasiswaCollection := MongoConnect("data_mahasiswa").Collection("mahasiswa")
+
+	// Create the filter to find the mahasiswa by npm
+	filter := bson.M{"npm": npm}
+
+	// Create the update document with the fields to update
+	update := bson.M{
+		"$set": bson.M{
+			"nama":          updatedMahasiswa.Nama,
+			"phone_number":  updatedMahasiswa.Phone_number,
+			"jurusan":       updatedMahasiswa.Jurusan,
+			"alamat":        updatedMahasiswa.Alamat,
+			"email":         updatedMahasiswa.Email,
+			"poin":          updatedMahasiswa.Poin,
+		},
+	}
+
+	// Perform the update operation
+	result, err := mahasiswaCollection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return false, fmt.Errorf("failed to update mahasiswa: %v", err)
+	}
+
+	// Check if any document was matched and updated
+	if result.MatchedCount == 0 {
+		return false, fmt.Errorf("no mahasiswa found with npm %s", npm)
+	}
+
+	return true, nil
+}
+
 
