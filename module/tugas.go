@@ -30,16 +30,17 @@ func InsertOneDoc(db string, collection string, doc interface{}) (insertedID int
 }
 
 func InsertMahasiswa(nama string, phonenumber string, jurusan string, npm int, alamat string, email string, poin int) (InsertedID interface{}) {
-	var mahasiswa model.Mahasiswa
-	mahasiswa.Nama = nama
-	mahasiswa.Npm = npm
-	mahasiswa.Phone_number = phonenumber
-	mahasiswa.Jurusan = jurusan
-	mahasiswa.Alamat = alamat
-	mahasiswa.Email = email
-	mahasiswa.Poin = poin
-	return InsertOneDoc("data_mahasiswa", "mahasiswa", mahasiswa)
+    var mahasiswa model.Mahasiswa // Menggunakan model.Mahasiswa
+    mahasiswa.Nama = nama
+    mahasiswa.Npm = npm
+    mahasiswa.Phone_number = phonenumber
+    mahasiswa.Jurusan = jurusan
+    mahasiswa.Alamat = alamat
+    mahasiswa.Email = email
+    mahasiswa.Poin = poin
+    return InsertOneDoc("data_mahasiswa", "mahasiswa", mahasiswa)
 }
+
 
 func GetMahasiswaFromID(_id primitive.ObjectID, db *mongo.Database, col string) (mahasiswa model.Mahasiswa, errs error) {
 	karyawan := db.Collection(col)
@@ -54,15 +55,16 @@ func GetMahasiswaFromID(_id primitive.ObjectID, db *mongo.Database, col string) 
 	return mahasiswa, nil
 }
 
-func GetMahasiswaFromNPM(npm string) (staf model.Mahasiswa) {
-	mahasiswa:= MongoConnect("data_mahasiswa").Collection("mahasiswa")
-	filter := bson.M{"npm": npm}
-	err := mahasiswa.FindOne(context.TODO(), filter).Decode(&staf)
-	if err != nil {
-		fmt.Printf("getMahasiswaFromNPM: %v\n", err)
-	}
-	return staf
+func GetMahasiswaFromNPM(npm int) (staf model.Mahasiswa) {
+    mahasiswa := MongoConnect("data_mahasiswa").Collection("mahasiswa")
+    filter := bson.M{"npm": npm}
+    err := mahasiswa.FindOne(context.TODO(), filter).Decode(&staf)
+    if err != nil {
+        fmt.Printf("GetMahasiswaFromNPM: %v\n", err)
+    }
+    return staf
 }
+
 
 func GetAllMahasiswa() (data [] model.Mahasiswa) {
 	mahasiswa := MongoConnect("data_mahasiswa").Collection("mahasiswa")
@@ -78,7 +80,7 @@ func GetAllMahasiswa() (data [] model.Mahasiswa) {
 	return
 }
 
-func UpdateMahasiswa(npm string, updatedMahasiswa model.Mahasiswa) (bool, error) {
+func UpdateMahasiswa(npm int, updatedMahasiswa model.Mahasiswa) (bool, error) {
 	// Connect to the mahasiswa collection
 	mahasiswaCollection := MongoConnect("data_mahasiswa").Collection("mahasiswa")
 
@@ -111,4 +113,19 @@ func UpdateMahasiswa(npm string, updatedMahasiswa model.Mahasiswa) (bool, error)
 	return true, nil
 }
 
+func DeleteMahasiswaByNPM(npm int) error {
+    mahasiswaCollection := MongoConnect("data_mahasiswa").Collection("mahasiswa")
+    filter := bson.M{"npm": npm}
+
+    result, err := mahasiswaCollection.DeleteOne(context.TODO(), filter)
+    if err != nil {
+        return fmt.Errorf("error deleting data for NPM %d: %v", npm, err)
+    }
+
+    if result.DeletedCount == 0 {
+        return fmt.Errorf("data with NPM %d not found", npm)
+    }
+
+    return nil
+}
 
