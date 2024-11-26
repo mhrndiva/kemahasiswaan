@@ -15,6 +15,15 @@ type Mahasiswa struct {
 	Poin			int				 `bson:"poin,omitempty" json:"poin,omitempty"`
 }
 
+type Dosen struct {
+	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	Nama         string             `bson:"nama,omitempty" json:"nama,omitempty"`
+	Kode_dosen      int				 `bson:"kode_dosen,omitempty" json:"kode_dosen,omitempty"`
+	Phone_number string             `bson:"phone_number,omitempty" json:"phone_number,omitempty"`
+	Matkul       string             `bson:"matkul,omitempty" json:"matkul,omitempty"`
+	Email		 string				 `bson:"email,omitempty" json:"email,omitempty"`
+}
+
 // type Matkul struct {
 // 	Nama_matkul   string   `bson:"namamatkul,omitempty" json:"namamatkul,omitempty"`
 // 	Jadwal        string  `bson:"jadwal,omitempty" json:"jadwal,omitempty"`
