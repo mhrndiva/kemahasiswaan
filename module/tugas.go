@@ -142,34 +142,34 @@ func InsertDosen(nama string, kode_dosen int, phone_number string, matkul string
 }
 
 func UpdateDosen(kode_dosen int, updatedDosen model.Dosen) (bool, error) {
-	// Connect to the mahasiswa collection
-	DosenCollection := MongoConnect("data_mahasiswa").Collection("dosen")
+    // Connect to the mahasiswa collection
+    dosenCollection := MongoConnect("data_mahasiswa").Collection("dosen")
 
-	// Create the filter to find the mahasiswa by npm
-	filter := bson.M{"kode_dosen": kode_dosen}
+    // Create the filter to find the dosen by kode_dosen
+    filter := bson.M{"kode_dosen": kode_dosen}
 
-	// Create the update document with the fields to update
-	update := bson.M{
-		"$set": bson.M{
-			"nama":          updatedDosen.Nama,
-			"phone_number":  updatedDosen.Phone_number,
-			"matkul":       updatedDosen.Matkul,
-			"email":         updatedDosen.Email,
-		},
-	}
+    // Create the update document with the fields to update
+    update := bson.M{
+        "$set": bson.M{
+            "nama":          updatedDosen.Nama,
+            "phone_number":  updatedDosen.Phone_number,
+            "matkul":        updatedDosen.Matkul,
+            "email":         updatedDosen.Email,
+        },
+    }
 
-	// Perform the update operation
-	result, err := dosenCollection.UpdateOne(context.TODO(), filter, update)
-	if err != nil {
-		return false, fmt.Errorf("failed to update dosen: %v", err)
-	}
+    // Perform the update operation
+    result, err := dosenCollection.UpdateOne(context.TODO(), filter, update)
+    if err != nil {
+        return false, fmt.Errorf("failed to update dosen: %v", err)
+    }
 
-	// Check if any document was matched and updated
-	if result.MatchedCount == 0 {
-		return false, fmt.Errorf("no dosen found with kode_dosen %s", kode_dosen)
-	}
+    // Check if any document was matched and updated
+    if result.MatchedCount == 0 {
+        return false, fmt.Errorf("no dosen found with kode_dosen %d", kode_dosen)
+    }
 
-	return true, nil
+    return true, nil
 }
 
 func DeleteDosenByKodeDosen(kode_dosen int) error {
@@ -199,8 +199,3 @@ func GetDosenFromKodeDosen(kode_dosen int) (staf model.Dosen) {
     }
     return staf
 }
-
-
-
-
-
