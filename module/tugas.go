@@ -141,54 +141,54 @@ func InsertDosen(nama string, kode_dosen int, phone_number string, matkul string
     return InsertOneDoc("data_mahasiswa", "dosen", dosen)
 }
 
-func UpdateDosen(kode_dosen int, updatedDosen model.Dosen) (bool, error) {
-    // Connect to the mahasiswa collection
-    dosenCollection := MongoConnect("data_mahasiswa").Collection("dosen")
+// func UpdateDosen(kode_dosen int, updatedDosen model.Dosen) (bool, error) {
+//     // Connect to the mahasiswa collection
+//     dosenCollection := MongoConnect("data_mahasiswa").Collection("dosen")
 
-    // Create the filter to find the dosen by kode_dosen
-    filter := bson.M{"kode_dosen": kode_dosen}
+//     // Create the filter to find the dosen by kode_dosen
+//     filter := bson.M{"kode_dosen": kode_dosen}
 
-    // Create the update document with the fields to update
-    update := bson.M{
-        "$set": bson.M{
-            "nama":          updatedDosen.Nama,
-            "phone_number":  updatedDosen.Phone_number,
-            "matkul":        updatedDosen.Matkul,
-            "email":         updatedDosen.Email,
-        },
-    }
+//     // Create the update document with the fields to update
+//     update := bson.M{
+//         "$set": bson.M{
+//             "nama":          updatedDosen.Nama,
+//             "phone_number":  updatedDosen.Phone_number,
+//             "matkul":        updatedDosen.Matkul,
+//             "email":         updatedDosen.Email,
+//         },
+//     }
 
-    // Perform the update operation
-    result, err := dosenCollection.UpdateOne(context.TODO(), filter, update)
-    if err != nil {
-        return false, fmt.Errorf("failed to update dosen: %v", err)
-    }
+//     // Perform the update operation
+//     result, err := dosenCollection.UpdateOne(context.TODO(), filter, update)
+//     if err != nil {
+//         return false, fmt.Errorf("failed to update dosen: %v", err)
+//     }
 
-    // Check if any document was matched and updated
-    if result.MatchedCount == 0 {
-        return false, fmt.Errorf("no dosen found with kode_dosen %d", kode_dosen)
-    }
+//     // Check if any document was matched and updated
+//     if result.MatchedCount == 0 {
+//         return false, fmt.Errorf("no dosen found with kode_dosen %d", kode_dosen)
+//     }
 
-    return true, nil
-}
+//     return true, nil
+// }
 
-func DeleteDosenByKodeDosen(kode_dosen int) error {
-    dosenCollection := MongoConnect("data_mahasiswa").Collection("dosen")
-    filter := bson.M{"kode_dosen": kode_dosen}
+// func DeleteDosenByKodeDosen(kode_dosen int) error {
+//     dosenCollection := MongoConnect("data_mahasiswa").Collection("dosen")
+//     filter := bson.M{"kode_dosen": kode_dosen}
 
-    // Melakukan penghapusan berdasarkan kode_dosen
-    result, err := dosenCollection.DeleteOne(context.TODO(), filter)
-    if err != nil {
-        return fmt.Errorf("error deleting data for kode_dosen %d: %v", kode_dosen, err)
-    }
+//     // Melakukan penghapusan berdasarkan kode_dosen
+//     result, err := dosenCollection.DeleteOne(context.TODO(), filter)
+//     if err != nil {
+//         return fmt.Errorf("error deleting data for kode_dosen %d: %v", kode_dosen, err)
+//     }
 
-    // Jika tidak ada data yang dihapus
-    if result.DeletedCount == 0 {
-        return fmt.Errorf("data with kode_dosen %d not found", kode_dosen)
-    }
+//     // Jika tidak ada data yang dihapus
+//     if result.DeletedCount == 0 {
+//         return fmt.Errorf("data with kode_dosen %d not found", kode_dosen)
+//     }
 
-    return nil
-}
+//     return nil
+// }
 
 func GetDosenFromKodeDosen(kode_dosen int) (staf model.Dosen) {
     dosen := MongoConnect("data_mahasiswa").Collection("dosen")
