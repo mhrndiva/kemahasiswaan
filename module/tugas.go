@@ -55,7 +55,7 @@ func GetMahasiswaFromID(_id primitive.ObjectID, db *mongo.Database, col string) 
 	return mahasiswa, nil
 }
 
-func GetMahasiswaFromNPM(npm int) (staf model.Mahasiswa) {
+func GetMahasiswaFromNPM(npm int) (staf model.Dosen) {
     mahasiswa := MongoConnect("data_mahasiswa").Collection("mahasiswa")
     filter := bson.M{"npm": npm}
     err := mahasiswa.FindOne(context.TODO(), filter).Decode(&staf)
