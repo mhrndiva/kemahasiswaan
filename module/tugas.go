@@ -80,6 +80,47 @@ func GetAllMahasiswa() (data [] model.Mahasiswa) {
 	return
 }
 
+func UpdateMahasiswaByID(id string, updatedMahasiswa Mahasiswa) (bool, error) {
+	// Connect ke koleksi mahasiswa
+	mahasiswaCollection := MongoConnect("data_mahasiswa").Collection("mahasiswa")
+
+	// Konversi ID string ke ObjectID MongoDB
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return false, fmt.Errorf("invalid ID format: %v", err)
+	}
+
+	// Filter untuk menemukan mahasiswa berdasarkan ID
+	filter := bson.M{"_id": objectID}
+
+	// Dokumen update dengan data baru
+	update := bson.M{
+		"$set": bson.M{
+			"nama":          updatedMahasiswa.Nama,
+			"npm":           updatedMahasiswa.Npm,
+			"phone_number":  updatedMahasiswa.Phone_number,
+			"jurusan":       updatedMahasiswa.Jurusan,
+			"alamat":        updatedMahasiswa.Alamat,
+			"email":         updatedMahasiswa.Email,
+			"poin":          updatedMahasiswa.Poin,
+		},
+	}
+
+	// Eksekusi update
+	result, err := mahasiswaCollection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return false, fmt.Errorf("failed to update mahasiswa: %v", err)
+	}
+
+	// Cek apakah ada dokumen yang ditemukan dan diupdate
+	if result.MatchedCount == 0 {
+		return false, fmt.Errorf("no mahasiswa found with ID %s", id)
+	}
+
+	return true, nil
+}
+
+
 func UpdateMahasiswa(npm int, updatedMahasiswa model.Mahasiswa) (bool, error) {
 	// Connect to the mahasiswa collection
 	mahasiswaCollection := MongoConnect("data_mahasiswa").Collection("mahasiswa")
