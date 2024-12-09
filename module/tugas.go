@@ -203,6 +203,22 @@ func UpdateMahasiswa(npm int, updatedMahasiswa model.Mahasiswa) (bool, error) {
 	return true, nil
 }
 
+func DeleteDosenByKodeDosen(kode_dosen int) error {
+    dosenCollection := MongoConnect("data_mahasiswa").Collection("dosen")
+    filter := bson.M{"kode_dosen": kode_dosen}
+
+    result, err := dosenCollection.DeleteOne(context.TODO(), filter)
+    if err != nil {
+        return fmt.Errorf("error deleting data for Kode Dosen %d: %v", kode_dosen, err)
+    }
+
+    if result.DeletedCount == 0 {
+        return fmt.Errorf("data with Kode Dosen %d not found", kode_dosen)
+    }
+
+    return nil
+}
+
 func DeleteMahasiswaByNPM(npm int) error {
     mahasiswaCollection := MongoConnect("data_mahasiswa").Collection("mahasiswa")
     filter := bson.M{"npm": npm}
