@@ -80,6 +80,19 @@ func GetAllMahasiswa() (data [] model.Mahasiswa) {
 	return
 }
 
+func GetAllDosen() (data [] model.Mahasiswa) {
+	dosen := MongoConnect("data_mahasiswa").Collection("dosen")
+	filter := bson.M{}
+	cursor, err := dosen.Find(context.TODO(), filter)
+	if err != nil {
+		fmt.Println("GetALLData :", err)
+	}
+	err = cursor.All(context.TODO(), &data)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return
+}
 // func UpdateMahasiswaByID(id string, updatedMahasiswa Mahasiswa) (bool, error) {
 // 	// Connect ke koleksi mahasiswa
 // 	mahasiswaCollection := MongoConnect("data_mahasiswa").Collection("mahasiswa")
